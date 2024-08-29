@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Tests\\CalculatorTest::testAdd":8,"Tests\\HtmlElementTest::testGeneratesHtmlElement":2},"times":{"Tests\\CalculatorTest::testAdd":0.012,"Tests\\HtmlElementTest::testGeneratesHtmlElement":0.058}}
