@@ -19,6 +19,29 @@ class HtmlElement {
     //* método render
     public function render(){
 
+        $result = $this->open();
+
+        if ($this->isVoid()) {
+            return $result;
+        }
+        
+        $result .= $this->content();
+        
+        $result .= $this->close();
+
+        return $result;
+        
+    }
+    public function close(){
+        return '</'.$this->name.'>';
+    }
+    public function content(){
+        return htmlentities($this->content, ENT_QUOTES,'UTF-8'); 
+    }
+    public function isVoid(){
+        return in_array($this->name, ['br', 'hr', 'img', 'input', 'meta', 'link', 'base', 'col', 'embed', 'source', 'track', 'wbr', 'area', 'param', 'keygen', 'command']);
+    }
+    public function open(){
         //? Lógica
         // Si el elemento tiene atributos:
         if (!empty($this->attributes)) {
@@ -39,20 +62,7 @@ class HtmlElement {
             // Abrir la etiqueta sin atributos
             $result = '<'.$this->name.'>';
         }
-        // Si el elemento es void
-        if (in_array($this->name, ['br', 'hr', 'img', 'input', 'meta', 'link', 'base', 'col', 'embed', 'source', 'track', 'wbr', 'area', 'param', 'keygen', 'command'])) {
-            return $result;
-        }
-        
-
-        // imprimir el contenido
-        if ($this->content !== null) {
-            $result .=htmlentities($this->content, ENT_QUOTES,'UTF-8'); 
-        }
-        // cerrar la etiqueta 
-        $result .= '</'.$this->name.'>';
         return $result;
-        
     }
 
 }
