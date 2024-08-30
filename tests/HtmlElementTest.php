@@ -60,4 +60,26 @@ class HtmlElementTest extends TestCase
         $element = new HtmlElement('span', ['class' => 'a_span', 'id' => 'the_span']);
         $this->assertSame(' class="a_span" id="the_span"', $element->attributes());
     }
+    //* Séptimo test autor: @hectorfd
+    public function testGenerateHtmlElementWithBooleanAttributes()
+    {
+        $element = new HtmlElement('input', ['required', 'disabled']);
+        $this->assertSame(
+            '<input required disabled>',
+            $element->render()
+        );
+    }
+
+    //* Octavo test autor: @hectorfd
+    public function testGenerateNestedHtmlElements()
+    {
+        $childElement = new HtmlElement('span', [], 'Texto dentro del span');
+        $parentElement = new HtmlElement('div', ['class' => 'container'], $childElement->render());
+        
+        $this->assertSame(
+            '<div class="container"><span>Texto dentro del span</span></div>',
+            $parentElement->render()
+        );
+    }
+  
 }
