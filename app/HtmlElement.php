@@ -19,15 +19,12 @@ class HtmlElement {
     //* método render
     public function render(){
 
-        $result = $this->open();
+        
 
         if ($this->isVoid()) {
-            return $result;
+            return $this->open();
         }
-        
-        $result .= $this->content();
-        
-        $result .= $this->close();
+        $result = $this->open().$this->content().$this->close();
 
         return $result;
         
@@ -49,24 +46,23 @@ class HtmlElement {
             return '<'.$this->name.'>';
         }
             // Abrir la etiqueta con atributo
-            return '<'.$this->name.$this->attributes().'>';
-        
-        
+            return '<'.$this->name.$this->attributes().'>';   
     }
     public function attributes(){
-        $htmlAttributes = '';
-        foreach ($this->attributes as $name => $value) {
-            $htmlAttributes.=$this->renderAttributes($name, $value);
-        }
-        return $htmlAttributes;
+        return array_reduce(array_keys($this->attributes), function($result, $name){
+            return $result .$this->renderAttributes($name);
+        },'');
+        
+        // foreach ($this->attributes as $name => $value) {
+        //     $htmlAttributes.=$this->renderAttributes($name, $value);
+        // }
+        // return $htmlAttributes;
     }
-    protected function renderAttributes($name, $value){
+    protected function renderAttributes($name){
         if(is_numeric($name)){
-            return ' '.$value;
+            return ' '.$this->attributes[$name];
         }
-        
-        return ' '. $name . '="' .htmlentities($value,ENT_QUOTES, 'UTF-8') . '"';//name="value"
-        
+        return ' '. $name . '="' .htmlentities($this->attributes[$name],ENT_QUOTES, 'UTF-8') . '"';//name="value"
     }
 
 }
