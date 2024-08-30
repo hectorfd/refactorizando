@@ -44,15 +44,14 @@ class HtmlElement {
     public function open(){
         //? Lógica
         // Si el elemento tiene atributos:
-        if (!empty($this->attributes)) {
-            
-            // Abrir la etiqueta con atributo
-            $result = '<'.$this->name.$this->attributes().'>';
-        }else{
+        if (empty($this->attributes)) {
             // Abrir la etiqueta sin atributos
-            $result = '<'.$this->name.'>';
+            return '<'.$this->name.'>';
         }
-        return $result;
+            // Abrir la etiqueta con atributo
+            return '<'.$this->name.$this->attributes().'>';
+        
+        
     }
     public function attributes(){
         $htmlAttributes = '';
@@ -63,11 +62,11 @@ class HtmlElement {
     }
     protected function renderAttributes($name, $value){
         if(is_numeric($name)){
-            $htmlAttributes =' '.$value;
-        }else{
-            $htmlAttributes =' '. $name . '="' .htmlentities($value,ENT_QUOTES, 'UTF-8') . '"';//name="value"
+            return ' '.$value;
         }
-        return $htmlAttributes;
+        
+        return ' '. $name . '="' .htmlentities($value,ENT_QUOTES, 'UTF-8') . '"';//name="value"
+        
     }
 
 }
